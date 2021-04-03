@@ -1,45 +1,105 @@
 # PyPrintSystem
-A library of text printing tools that you can use in your Python3 project 
+A library of printing tools that you can use in your python3 project
 
-## Usage:
-STDOUT:
-You can use the function `p()`
+## Functions:
 
-    p(message, mode = 'i', verbose = False, prefix = "", suffix = linesep)
-Example:
+### STDOut
+```python
+p(message, mode = 'i', verbose = False, prefix = "", suffix = linesep)
+```
+Printing to `STDOut`. Allows suffix's, prefix's, and verbosity. (ret: str)
+- `message`: (str) The message to be printed to `STDOut`
+- `mode`: (char) Mode selection (see below)
+- `verbose`: (bool) Choose whether to display verbose messaging
+- `prefix`: (str) Text to print before mode indicator
+- `suffix`: (str) Text to print after `message`
 
+#### Example:
+```python
+>>> import PyPrintSystem
+>>> PyPrintSystem.p("Hello, world!", 's')
+[+] Hello, world!
+>>>
+```
+
+<br />
+<br />
+
+### STDIn
+```python
+i(message, mode = 'i')
+```
+
+Input from `STDIn`. (ret: str)
+- `message`: (str) The prompt message
+- `mode`: (char) Mode selection (see below)
+
+#### Example:
+```python
+>>> import PyPrintSystem
+>>> PyPrintSystem.i("Task failed! Would you like to re-try? ", 'e')
+Tasked failed! Would you like to re-try? (STDIn) yes
+'yes'
+>>> 
+```
+
+<br />
+<br />
+
+### DoHeart
+```python
+doHeart(message, iterations = 1, delayTime = 0.1)
+```
+
+Just a nice graphical display, throwback to old Call of Duty modding. (ret: str)
+- `message`: (str) Message to loop to `STDOut`
+- `iterations`: (int) Number of iterations to loop for
+- `delayTime`: (float) Delay between each iteration
+
+#### Example:
+```python
+>>> import PyPrintSystem
+>>> PyPrintSystem.doHeart("Meowdy!", 4)
+[<3] Meowdy!
+>>> 
+```
+
+### Modes
+There are 5 modes in total, they are as follows:
+- `v`: Verbose, `message` is suffixed with `[#]`
+- `e`: Error, `message` is suffixed with `[-]`, input is red
+- `s`: Success, `message` is suffixed with `[+]`, input is green
+- `w`: Warning, `message` is suffixed with `[*]`, input is yellow
+- `i`: Information, `message` is suffixed with `[!]`, input is blue
+
+`Verbose` should have a boolean passed to detect whether to print or not. A system like this should be passed:
+
+```python
+#!/usr/bin/env python3
+from sys import argv
+from PyPrintSystem import *
+
+if argv[1] == "-v":
     verbose = True
-    p("Hello, world", 's', verbose, "!!") # Prints "!![+] Hello, world\r\n"
-    
-* message: the text to write to the screen
-* mode: What type of message it is (v(erbose), e(rror), s(uccess), w(arning), i(nformation)), default: i(nformation)
-* verbose: Whether to desplay verbose messages or not, default: False
-* prefix: Text before the []
-* Suffix: Text at the end of the message
+else:
+    verbose = False
 
-STDIN:
-You can use the function `i()`
+p("Starting application", 'v', verbose)
+p("Welcome!", 's')
+p("Exitting application", 'v', verbose)
+doHeart("Goodbye!", 2)
+```
 
-    i(message, mode = 'i', verbose = False)
-Example:
+#### Output:
+```python
+# python3 Test.py -v 
+[#] Starting application
+[+] Welcome!
+[#] Exitting application
+[<3] Goodbye!
 
-    i("What is your name? ", 'i', False) # Inputs "What is your name", returns the user input
-    
- * message: the text to write to the screen
- * mode: What type of message it is (v(erbose), e(rror), s(uccess), w(arning), i(nformation)), default: i(nformation)
- * verbose: Whether to desplay verbose messages or not, default: False
- 
- SPECIAL:
- There is a special function, called `doHeart()`
- 
- `doHeart()` is a reference to Call of Duty modding, where a specific mod called DoHeart will cause the admin name to flash colors on the side of the screen.
- 
-     doHeart(message, iterations = 1, delayTime = 0.1)
- Example:
- 
-     doHeart("Welcome, to my cool thingo", 3, 0.2)
-     
- * message: The message to display to the screen
- * iterations: How many times the colors will repeat
- * delayTime: delay between colors changing
+# python3 Test.py
+[+] Welcome!
+[<3] Goodbye!
 
+```
