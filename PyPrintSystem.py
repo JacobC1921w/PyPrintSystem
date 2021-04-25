@@ -38,3 +38,4 @@ def p(message, mode = 'i', verbose = False, prefix = "", suffix = linesep):
         stdout.write(prefix + "\033[0m[\033[94;1m!\033[0m] \033[0m" + message + "\033[0m" + suffix)
     else:
         return
+    stdout.flush()
